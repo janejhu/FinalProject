@@ -13,6 +13,6 @@ public:
     Teacher(string username, string password);
 
 };
-
+ostream &operator<<(ostream &os, const Teacher &teacher);
 
 #endif //INC_224_PROJECT_TEACHER_H

@@ -8,16 +8,27 @@ Reader::Reader() {
 }
 
 Reader::Reader(string username, string newPassword){
-    this->username = username;
-    this->password = password;
-    this -> penalty = 0;
+    username = username;
+    password = newPassword;
+    penalty = 0;
 }
 
-void Reader::reserve (Book theBook){reserved.push_back(theBook); }
+
 
 //toString
 ostream &operator<<(ostream &os, const Reader &reader) {
-    os << reader.username;
+    os << "Username: " << reader.username << endl;
+    os << "Password: " << reader.password << endl;
+    os << "Peanlty: " << reader.getPenalty() << endl;
+    os << "List of reserved books: ";
+    for(Book i : reader.getReserved()){
+        os << i << endl;
+    }
+    os << "List of borrowed books: ";
+    for(Book i : reader.getBorrowed()){
+        os << i << endl;
+    }
+    os << "Maximum Number of Books: " << 5 << endl;
     return os;
 }
 
@@ -63,28 +74,11 @@ void Reader::setMax_days(int max_days) {
 }
 
 
-Book Reader::searchBookbyISBN(string ISBN){
 
-}
-vector<Book> Reader::searchBookbyAuthor(string author){
 
-}
-Book Reader::searchBookbyTitle(string Title){
 
-}
-vector<Book> Reader::searchBookbyCategory(string category){
 
-}
 
-void Reader::borrowBook(Book aBook){
-
-}
-void Reader::returnBook(Book aBook){
-
-}
-void Reader::cancelReserve(Book aBook){
-
-}
 
 
 

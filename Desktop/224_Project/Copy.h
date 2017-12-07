@@ -26,25 +26,15 @@ public:
 
 
     const string &getID() const;
-
     void setID(const string &ID);
-
     const string &getReaderName() const;
-
     void setReaderName(const string &readerName);
-
     const string &getBorrowDate() const;
-
     void setBorrowDate(const string &borrowDate);
-
     const string &getBorrowedTime() const;
-
     void setBorrowedTime(const string &borrowedTime);
-
     const string &getExpirationDate() const;
-
     void setExpirationDate(const string &expirationDate);
-
     friend ostream &operator<<(ostream &os, const Copy &copy1);
 };
 

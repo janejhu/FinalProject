@@ -5,8 +5,8 @@
 using namespace std;
 
 class User{
-    protected:
-        string username, password;              //Protected fields username and password
+    public:
+        string username, password;
     private:
         bool Teacher, Student, Librarian;       //Distinguish the type of subclasses (not required, but easier to read)
 

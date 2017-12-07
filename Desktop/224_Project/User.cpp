@@ -7,8 +7,8 @@ User::User(){
 }
 
 User::User(string username, string password){
-    this -> username = username;
-    this -> password = password;
+    username = username;
+    password = password;
 }
 
 void User::setUsername(string newUsername){
@@ -51,7 +51,7 @@ ostream &operator<<(ostream &os, const User &user) {
     return os;
 }
 
-void User::write(std::ostream & os) const{
+void User::write(ostream & os) const{
     os<< "username: " << username <<endl;
     os << "Password: "<< password << endl;
 }

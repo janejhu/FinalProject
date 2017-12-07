@@ -30,7 +30,7 @@ private:
 public:
     Reader();
     Reader(string username, string newPassword);
-    void reserve (Book aBook);
+
     int getPenalty() const;
     void setPenalty(int penalty);
     const vector<Book> &getBorrowed() const;
@@ -43,18 +43,5 @@ public:
     void setMax_books(int max_books);
     int getMax_days() const;
     void setMax_days(int max_days);
-
-    Book searchBookbyISBN(string ISBN);
-    vector<Book> searchBookbyAuthor(string author);
-    Book searchBookbyTitle(string Title);
-    vector<Book> searchBookbyCategory(string category);
-
-
-    void borrowBook(Book aBook);
-    void returnBook(Book aBook);
-    void cancelReserve(Book aBook);
-
-
-
 };
 #endif //PROJECT_READER_H
