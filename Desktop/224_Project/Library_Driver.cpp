@@ -101,12 +101,12 @@ void create(){
     else if(choice == 2 && exist == false){
        Teacher teacher(username,password);
         UserDatabase.push_back(teacher);
-        cout << "A librarian account with the username "<< teacher.getUsername() << " has been created";
+        cout << "A Teacher account with the username "<< teacher.getUsername() << " has been created";
     }
-    else if(choice == 2 && exist == false){
+    else if(choice == 3 && exist == false){
         Student student(username,password);
         UserDatabase.push_back(student);
-        cout << "A librarian account with the username "<< student.getUsername() << " has been created";
+        cout << "A Student account with the username "<< student.getUsername() << " has been created";
     }
 
 
