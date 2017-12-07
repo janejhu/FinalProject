@@ -1,5 +1,6 @@
 #include<iostream>
-#include <string>
+#include<stdio.h>
+#include <cstring>
 #include "Book.h"
 using namespace std;
 
@@ -11,6 +12,8 @@ Book::Book(string newTitle, string newAuthor, string newCategory, string ISBN){
     this -> author = newAuthor;
     this -> category = newCategory;
     this -> ISBN = ISBN;
+    this -> numCopies = 0;
+
 }
 
 void Book::setISBN(string newISBN){
@@ -32,6 +35,7 @@ void Book::setCategory(string newCategory){
 void Book::newReserver(Reader reserver){
     reservers.push(reserver);
 }
+
 
 string Book::getISBN(){
     return ISBN;
@@ -71,6 +75,7 @@ ostream &operator<<(ostream &os, const Book &book) {
 }
 
 istream &operator >>(istream &in, Book &book){
+
     cout << "Enter the Title: ";
     in >> book.title;
     cout << "Enter the Author: ";
@@ -87,4 +92,13 @@ void Book::write(ostream &os) const{
     os << "ISBN: " << ISBN << endl;
     os << "Category: " << category << endl;
 }
+
+int Book::getNumCopies() const {
+    return numCopies;
+}
+
+void Book::setNumCopies(int numCopies) {
+    Book::numCopies = numCopies;
+}
+
 

@@ -13,7 +13,7 @@ using namespace std;
 
 class Copy : public Book{
 private:
-    string ID;
+    int ID;
     string readerName;
     string borrowDate;
     string borrowedTime;
@@ -22,11 +22,11 @@ private:
 
 public:
     Copy();
-    Copy(string ID);
+    Copy(string Title, string Author, string Category, string ISBN);
 
 
-    const string &getID() const;
-    void setID(const string &ID);
+    const int &getID() const;
+    void setID(const int &ID);
     const string &getReaderName() const;
     void setReaderName(const string &readerName);
     const string &getBorrowDate() const;
@@ -36,6 +36,7 @@ public:
     const string &getExpirationDate() const;
     void setExpirationDate(const string &expirationDate);
     friend ostream &operator<<(ostream &os, const Copy &copy1);
+    friend istream &operator >>(istream &in, Book &book);
 };
 
 

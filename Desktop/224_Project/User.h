@@ -5,7 +5,7 @@
 using namespace std;
 
 class User{
-    public:
+public:
         string username, password;
     private:
         bool Teacher, Student, Librarian;       //Distinguish the type of subclasses (not required, but easier to read)
@@ -18,7 +18,10 @@ class User{
         string getPassword();
         string getUsername();
         friend ostream &operator<<(ostream &os, const User &user);
+        friend istream &operator>>(istream &in, User &user);
         virtual void write(ostream&) const;
+
+
        //Functions used to distinguish the type of account
         bool isTeacher();
         bool isStudent();

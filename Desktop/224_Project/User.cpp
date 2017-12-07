@@ -51,6 +51,15 @@ ostream &operator<<(ostream &os, const User &user) {
     return os;
 }
 
+istream &operator>>(istream &in, User &user){
+    cout << "Enter the username: " << endl;
+    in >> user.username;
+    cout << "Enter the password: " << endl;
+    in >>  user.password;
+}
+
+
+
 void User::write(ostream & os) const{
     os<< "username: " << username <<endl;
     os << "Password: "<< password << endl;

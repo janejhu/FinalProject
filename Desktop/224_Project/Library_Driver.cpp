@@ -13,6 +13,8 @@ vector<Librarian> LibrarianDatabse;         //vector that stores all users
 vector<Student> StudentDatabase;
 vector<Teacher> TeacherDatabase;
 vector<Book> BookDatabase;                 //vector that stores all books
+vector<Copy> CopiesDatabase;                // vector that stores all copies
+int copyID = 0;                             // unique ID of the a book
 Student student;                            //To be pass to the display function
 Teacher teacher;
 Librarian librarian;
@@ -26,16 +28,22 @@ void create();
 void login();
 void SearchBook(int i);
 void ReaderMenu();
+void LibrarianMenu();
 void printBooks();
 void printAllUsers();
+bool exist(string username);
 
 
 int main(){
+    Librarian TA224("ta224", "224");
+    LibrarianDatabse.push_back(TA224);      //create 224 ta account
     mainmenu();
 }
 //Main Menu
 void mainmenu(){
-    cout << "Welcome to the SBU library management system. What would you like to do?\n";
+    cout << "\n-------------------\n"
+            "Welcome to the SBU library management system. What would you like to do?\n"
+            "-------------------\n";
     cout << "1. Create an account\n2. Login to your account\n3. Exit Program";
     int select;
     cin >> select;
@@ -67,11 +75,19 @@ void create(){
     Student tempStu(username, password);
     Teacher tempTeacher(username, password);
     Librarian tempLib(username, password);
+    vector<User> bigDatabase;
 
-    if(choice == 1) {
+    if(exist(username)){            //Returns true if this username is taken
+        cout << "An account with this username already exist.\n";
+        mainmenu();
+    }
+
+    else if(choice == 1) {
         Librarian newadmin(username,password);
-        LibrarianDatabse.push_back(newadmin);
-        cout << "A Teacher account with the username "<< newadmin.getUsername() << " has been created\n";
+            LibrarianDatabse.push_back(newadmin);
+            cout << "A Librarian account with the username " << newadmin.getUsername() << " has been created\n";
+            mainmenu();
+
     }
     else if(choice == 2 ){
         Teacher newteacher(username,password);
@@ -84,6 +100,24 @@ void create(){
         cout << "A Student account with the username "<< newstudent.getUsername() << " has been created\n";
     }
     mainmenu();
+}
+
+bool exist(string username){
+
+    vector<string> usernames;
+    for(Librarian i : LibrarianDatabse){
+        usernames.push_back(i.getUsername());
+    }
+    for(Student i : StudentDatabase){
+        usernames.push_back(i.getUsername());
+    }
+    for(Teacher i : TeacherDatabase){
+        usernames.push_back(i.getUsername());
+    }
+    if(find(usernames.begin(),usernames.end(),username) != usernames.end()){
+        return true;
+    } else
+        return false;
 }
 
 void login(){
@@ -107,11 +141,11 @@ void login(){
             }
             if(password == librarian.getPassword()){
                 LibrarianLoggedin = true;
-                //LibrarianMenu();
+                LibrarianMenu();
                 break;
             }
             else {
-                cout << "Invalid credential, try again\n";
+                cout << "Invalid credential, username and password are case-sensitive, try again\n";
                 login();
                 break;
             }
@@ -124,12 +158,12 @@ void login(){
                 student = i;
             }
             if(password == student.getPassword()){
-                //StudentMenu();
+                ReaderMenu();
                 studentLoggedin = true;
                 break;
             }
             else {
-                cout << "Invalid credential, try again\n";
+                cout << "Invalid credential, username and password are case-sensitive, try again\n";
                 login();
                 break;
             }
@@ -142,14 +176,13 @@ void login(){
                 valid = true;
                 teacher = i;
             }
-            if(password == student.getPassword()){
+            if(password == teacher.getPassword()){
                 TeacherLoggedin = true;
                 ReaderMenu();
-                cout << "valid";
                 break;
             }
             else {
-                cout << "Invalid credential, try again";
+                cout << "Invalid credential, username and password are case-sensitive, try again";
                 login();
                 break;
             }
@@ -164,22 +197,26 @@ void login(){
 void ReaderMenu() {
     cout << "\nWelcome, reader. Select your option: \n1 -- Search Book\n2 -- Borrow Books\n3 -- Return Book"
             "\n4 -- Reserve Books\n5 -- Cancel Reservation"
-            "\n6 -- My Information\n 7 -- Change Password"
-            "\n 8 -- Log Out\n";
+            "\n6 -- My Information\n7 -- Change Password"
+            "\n8 -- Log Out\n";
     int i;
     cin >> i;
-    if (i == 1) {
+    if (i == 1) {                       //Search Book
         cout << "Search by: " << endl;
-        cout << "1 -- ISBN\n2 -- Title\n3 -- Author 4 -- Category";
+        cout << "1 -- ISBN\n2 -- Title\n3 -- Author\n4 -- Category";
         cin >> i;
         SearchBook(i);
-    } else if (i == 6) {
+
+    } else if (i == 6) {                //My information
         if (studentLoggedin) {
             cout << student;
         } else if (TeacherLoggedin) {
             cout << teacher;
         }
-    } else if (i == 7) {                                    //Change password
+        ReaderMenu();
+    }
+
+    else if (i == 7) {                                    //Change password
         cout << "Enter your new Password: ";
         string newPassword;
         cin >> newPassword;
@@ -188,15 +225,79 @@ void ReaderMenu() {
         } else if (TeacherLoggedin) {
             teacher.setPassword(newPassword);
         }
-    } else if (i == 8) {
-        cout << "Logged out";
+        cout << "Your new password is: " << newPassword << "\n";
+        ReaderMenu();
+    }
+
+    else if (i == 8) {                  //Log out
+        TeacherLoggedin = false;
+        studentLoggedin = false;
+        cout << "You've logged out of your account\n";
         mainmenu();
     }
 }
 
+void LibrarianMenu(){
+
+    cout << "\nWelcome, Librarian. Select your option: \n1 -- Search Book\n2 -- Add Books\n3 -- Delete Book"
+            "\n4 -- Add Users\n5 -- Delete Users"
+            "\n6 -- My Information\n7 -- Change Password"
+            "\n8 -- Log Out\n";
+    int i;
+    cin >> i;
+    if(i == 1 ){
+        cout << "Search by: " << endl;
+        cout << "1 -- ISBN\n2 -- Title\n3 -- Author\n4 -- Category";
+        cin >> i;
+        SearchBook(i);
+    }
+    else if(i == 2){
+        bool addCopy = false;
+        Book newBook;
+        cout << "Enter all information about the book without any spaces\n";
+        cin >> newBook;
+        for(Book i : BookDatabase){
+            if(i.getISBN() == newBook.getISBN()){
+                addCopy = true;
+                break;
+            }
+        }
+        if(!addCopy){       //No copies exist yet, adding a new book and a copy.
+            BookDatabase.push_back(newBook);
+            newBook.setNumCopies(1);
+            Copy bookCopy(newBook.getTitle(),newBook.getAuthor(),newBook.getCategory(),newBook.getISBN());
+            bookCopy.setID(copyID++);
+            CopiesDatabase.push_back(bookCopy);
+            cout << newBook.getTitle() << " has been added to the database!\n";
+        }
+        else{               //Already has copies, add another 1, increment ID counter by 1.
+            Copy bookCopy(newBook.getTitle(),newBook.getAuthor(),newBook.getCategory(),newBook.getISBN());
+            bookCopy.setID(copyID++);
+            newBook.setNumCopies(newBook.getNumCopies() + 1);
+            CopiesDatabase.push_back(bookCopy);
+            cout << "A new copy of " << newBook.getTitle() << " has been added to the database!\n";
+        }
+
+    }
+
+    else if (i == 3){
+        cout << "Enter the ID number of the book you wish to delete: \n";
+        int idnum;
+        cin >> idnum;
+        Copy deletedCopy;
+        for(Copy i : CopiesDatabase){
+            if(idnum == i.getID()){
+                deletedCopy = i;
+                break;
+            }
+        }
+    }
+
+    LibrarianMenu();
+}
 
 
-//Print all the users
+//Print all the users (debugging purposes)
     void printAllUsers() {
         for (Librarian i : LibrarianDatabse) {
             cout << i;
@@ -210,7 +311,7 @@ void ReaderMenu() {
 
     }
 
-//Print all the books in the system
+//Print all the books in the system (debugging purposes)
     void printBooks() {
         for (Book i: BookDatabase) {
             cout << i.getTitle() << "\n";
@@ -221,6 +322,7 @@ void ReaderMenu() {
         if (i == 1) {
             cout << "Enter the ISBN";
             string isbn;
+            cin >> isbn;
             for (Book i : BookDatabase) {
                 if (i.getISBN() == isbn) {
                     cout << "Book Found\n" << i;
@@ -229,6 +331,7 @@ void ReaderMenu() {
         } else if (i == 2) {
             cout << "Enter the Title";
             string title;
+            cin >> title;
             for (Book i : BookDatabase) {
                 if (i.getTitle() == title) {
                     cout << "Book Found\n" << i;
@@ -237,6 +340,7 @@ void ReaderMenu() {
         } else if (i == 3) {
             cout << "Enter the author";
             string author;
+            cin >> author;
             for (Book i : BookDatabase) {
                 if (i.getAuthor() == author) {
                     cout << i << endl;
@@ -246,12 +350,18 @@ void ReaderMenu() {
         } else if (i == 4) {
             cout << "Enter the Categogry";
             string category;
+            cin >> category;
             for (Book i : BookDatabase) {
                 if (i.getCategory() == category) {
                     cout << i << endl;
                 }
             }
         }
+        cout << "\n";
+        if(studentLoggedin || TeacherLoggedin)
+            ReaderMenu();
+        else
+            LibrarianMenu();
     }
 
 

@@ -14,9 +14,10 @@ using namespace std;
 class Reader;
 
 class Book{
-private:
+public:
     string ISBN;
     string title, author, category;
+    int numCopies;
     queue<Reader> reservers;
 
 public:
@@ -32,7 +33,9 @@ public:
     string getAuthor();
     string getCategory();
     void getReservers();
+
     int getNumCopies() const;
+
     void setNumCopies(int numCopies);
 
 

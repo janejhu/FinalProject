@@ -2,14 +2,24 @@
 // Created by Jane on 12/05/17.
 //
 #include "Copy.h"
+
 using namespace std;
 
+Copy::Copy(){
 
-const string &Copy::getID() const {
+}
+
+Copy::Copy(string Title, string Author, string Category, string ISBN){
+    this -> title = Title;
+    this -> author = Author;
+    this -> category = Category;
+    this -> ISBN = ISBN;
+}
+const int &Copy::getID() const {
     return ID;
 }
 
-void Copy::setID(const string &ID) {
+void Copy::setID(const int &ID) {
     Copy::ID = ID;
 }
 
@@ -43,5 +53,9 @@ const string &Copy::getExpirationDate() const {
 
 void Copy::setExpirationDate(const string &expirationDate) {
     Copy::expirationDate = expirationDate;
+}
+
+istream &operator >>(istream &in, Copy &copy){
+
 }
 

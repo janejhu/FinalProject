@@ -12,8 +12,8 @@ Student::Student(){
 }
 
 Student::Student(string username, string password){
-    username = username;
-    password = password;
+    this -> username = username;
+    this -> password = password;
     setasStudent();
     setMax_books(5);
     setMax_days(30);
@@ -36,5 +36,15 @@ ostream &operator<<(ostream &os, const Student &student) {
     }
     os << "Maximum Number of Books: " << 5 << endl;
     return os;
+}
+
+
+
+istream &operator>>(istream &in, Student &student){
+    cout << "Enter the username: " << endl;
+    in >> student.username;
+    cout << "Enter the password: " << endl;
+    in >>  student.password;
+
 }
 

@@ -11,8 +11,9 @@ class Teacher : public Reader{
 public:
     Teacher();
     Teacher(string username, string password);
-
+    friend ostream &operator<<(ostream &os, const Teacher &teacher);
+    friend istream &operator>>(istream &in, Teacher &teacher);
 };
-ostream &operator<<(ostream &os, const Teacher &teacher);
+
 
 #endif //INC_224_PROJECT_TEACHER_H

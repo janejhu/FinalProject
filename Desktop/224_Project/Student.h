@@ -17,6 +17,7 @@ public:
     Student();
     Student(string username, string password);
     friend ostream &operator<<(ostream &os, const Student &student);
+    friend istream &operator>>(istream &in, Student &student);
 };
 
 
