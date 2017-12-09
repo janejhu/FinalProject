@@ -5,19 +5,15 @@
 #include<cstring>
 #include<vector>
 #include "User.h"
-#include "Book.h"
+#include "Copy.h"
+
 
 using namespace std;
-class Book;
-class User;
-
-
-
 
 class Reader: public User {
 private:
     int penalty;
-    vector<Book> borrowed;
+    vector<Copy> borrowed;
     vector<Book> reserved;
     int max_books;
     int max_days;
@@ -30,8 +26,10 @@ public:
 
     int getPenalty() const;
     void setPenalty(int penalty);
-    const vector<Book> &getBorrowed() const;
-    void setBorrowed(const vector<Book> &borrowed);
+
+    const vector<Copy> &getBorrowed() const;
+
+    void setBorrowed(const vector<Copy> &borrowed);
     const vector<Book> &getReserved() const;
     void setReserved(const vector<Book> &reserved);
     friend ostream &operator<<(ostream &os, const Reader &reader);

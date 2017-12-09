@@ -5,10 +5,8 @@
 #ifndef INC_224_PROJECT_BOOK_H
 #define INC_224_PROJECT_BOOK_H
 
-
 #include<cstring>
 #include<queue>
-#include "Reader.h"
 
 using namespace std;
 class Reader;
@@ -18,7 +16,7 @@ public:
     string ISBN;
     string title, author, category;
     int numCopies;
-    queue<Reader> reservers;
+    queue<Reader>* reservers;
 
 public:
     Book();
@@ -27,16 +25,20 @@ public:
     void setTitle(string newTitle);
     void setAuthor(string newAuthor);
     void setCategory(string newCategory);
-    void newReserver(Reader reserver);
+    //void newReserver(Reader& reserver);
     string getISBN();
     string getTitle();
     string getAuthor();
     string getCategory();
-    queue<Reader> getReservers();
+    //queue<Reader> getReservers();
 
     int getNumCopies() const;
 
     void setNumCopies(int numCopies);
+
+    queue<Reader> *getReservers() const;
+
+    void setReservers(queue<Reader> *reservers);
 
 
     void setReservers(const queue<Reader> &reservers);

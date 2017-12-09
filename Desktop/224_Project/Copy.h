@@ -7,7 +7,6 @@
 #include <cstring>
 #include <iostream>
 using namespace std;
-
 #include "Book.h"
 
 
@@ -36,7 +35,7 @@ public:
     void setBorrowedTime(const string &borrowedTime);
     const string &getExpirationDate() const;
     void setExpirationDate(const string &expirationDate);
-        friend istream &operator >>(istream &in, Book &book);
+    friend istream &operator >>(istream &in, Copy &copy);
 
     friend ostream &operator<<(ostream &os, const Copy &copy1);
 

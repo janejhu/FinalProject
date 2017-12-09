@@ -24,8 +24,8 @@ ostream &operator<<(ostream &os, const Reader &reader) {
     for(Book i : reader.getReserved()){
         os << i << endl;
     }
-    os << "List of borrowed books: ";
-    for(Book i : reader.getBorrowed()){
+    os << "List of borrowed copies: ";
+    for(Copy i : reader.getBorrowed()){
         os << i << endl;
     }
     os << "Maximum Number of Books: " << 5 << endl;
@@ -40,13 +40,6 @@ void Reader::setPenalty(int penalty) {
     Reader::penalty = penalty;
 }
 
-const vector<Book> &Reader::getBorrowed() const {
-    return borrowed;
-}
-
-void Reader::setBorrowed(const vector<Book> &borrowed) {
-    Reader::borrowed = borrowed;
-}
 
 const vector<Book> &Reader::getReserved() const {
     return reserved;
@@ -71,6 +64,14 @@ int Reader::getMax_days() const {
 
 void Reader::setMax_days(int max_days) {
     Reader::max_days = max_days;
+}
+
+const vector<Copy> &Reader::getBorrowed() const {
+    return borrowed;
+}
+
+void Reader::setBorrowed(const vector<Copy> &borrowed) {
+    Reader::borrowed = borrowed;
 }
 
 

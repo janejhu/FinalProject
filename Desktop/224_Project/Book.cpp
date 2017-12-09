@@ -2,6 +2,8 @@
 #include<stdio.h>
 #include <cstring>
 #include "Book.h"
+#include "Reader.h"
+
 using namespace std;
 
 Book::Book(){
@@ -32,10 +34,6 @@ void Book::setCategory(string newCategory){
     category = newCategory;
 }
 
-void Book::newReserver(Reader reserver){
-    reservers.push(reserver);
-}
-
 
 string Book::getISBN(){
     return ISBN;
@@ -53,13 +51,6 @@ string Book::getCategory(){
     return category;
 }
 
-queue<Reader> Book::getReservers(){
-    return reservers;
-}
-
-void Book::setReservers(const queue<Reader> &reservers) {
-    Book::reservers = reservers;
-}
 
 ostream &operator<<(ostream &os, const Book &book) {
     os << "Title: " << book.title << endl;
@@ -94,6 +85,14 @@ int Book::getNumCopies() const {
 
 void Book::setNumCopies(int numCopies) {
     Book::numCopies = numCopies;
+}
+
+queue<Reader> *Book::getReservers() const {
+    return reservers;
+}
+
+void Book::setReservers(queue<Reader> *reservers) {
+    Book::reservers = reservers;
 }
 
 
