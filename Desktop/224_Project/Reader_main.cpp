@@ -8,9 +8,9 @@ Reader::Reader() {
 }
 
 Reader::Reader(string username, string newPassword){
-    username = username;
-    password = newPassword;
-    penalty = 0;
+    this -> username = username;
+    this -> password = newPassword;
+    this -> penalty = 0;
 }
 
 

@@ -16,10 +16,6 @@ class Librarian: public User{
         Librarian();
         Librarian(string username, string password);
 
-
-        const string &getCategory() const;
-        void setCategory(const string &category);
-
     friend ostream &operator<<(ostream &os, const Librarian &librarian);
 
 };

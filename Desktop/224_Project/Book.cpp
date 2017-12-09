@@ -53,13 +53,8 @@ string Book::getCategory(){
     return category;
 }
 
-void Book::getReservers(){
-    queue<Reader> temp = reservers;
-    while(!temp.empty()){
-        Reader r(temp.front());
-        cout << r;
-        temp.pop();
-    }
+queue<Reader> Book::getReservers(){
+    return reservers;
 }
 
 void Book::setReservers(const queue<Reader> &reservers) {

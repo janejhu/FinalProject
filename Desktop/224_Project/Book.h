@@ -32,7 +32,7 @@ public:
     string getTitle();
     string getAuthor();
     string getCategory();
-    void getReservers();
+    queue<Reader> getReservers();
 
     int getNumCopies() const;
 

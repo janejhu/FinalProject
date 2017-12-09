@@ -41,9 +41,9 @@ int main(){
 }
 //Main Menu
 void mainmenu(){
-    cout << "\n-------------------\n"
+    cout << "\n---------------------------------------------------------\n"
             "Welcome to the SBU library management system. What would you like to do?\n"
-            "-------------------\n";
+            "---------------------------------------------------------\n";
     cout << "1. Create an account\n2. Login to your account\n3. Exit Program";
     int select;
     cin >> select;
@@ -99,7 +99,11 @@ void create(){
         StudentDatabase.push_back(newstudent);
         cout << "A Student account with the username "<< newstudent.getUsername() << " has been created\n";
     }
-    mainmenu();
+    if(LibrarianLoggedin){
+        LibrarianMenu();
+    }
+    else
+        mainmenu();
 }
 
 bool exist(string username){
@@ -240,9 +244,9 @@ void ReaderMenu() {
 void LibrarianMenu(){
 
     cout << "\nWelcome, Librarian. Select your option: \n1 -- Search Book\n2 -- Add Books\n3 -- Delete Book"
-            "\n4 -- Add Users\n5 -- Delete Users"
-            "\n6 -- My Information\n7 -- Change Password"
-            "\n8 -- Log Out\n";
+            "\n4 -- Search Users\n5 -- Add Users\n6 -- Delete Users"
+            "\n7 -- My Information\n8 -- Change Password"
+            "\n0 -- Log Out\n";
     int i;
     cin >> i;
     if(i == 1 ){
@@ -254,7 +258,7 @@ void LibrarianMenu(){
     else if(i == 2){
         bool addCopy = false;
         Book newBook;
-        cout << "Enter all information about the book without any spaces\n";
+        cout << "Enter all information about the book without any spaces (CASE SENSITIVE)\n";
         cin >> newBook;
         for(Book i : BookDatabase){
             if(i.getISBN() == newBook.getISBN()){
@@ -281,19 +285,154 @@ void LibrarianMenu(){
     }
 
     else if (i == 3){
+        bool hasCopy;
+        int numSameCopies = 0, idnum;
         cout << "Enter the ID number of the book you wish to delete: \n";
-        int idnum;
         cin >> idnum;
+        Book deletedBook;
         Copy deletedCopy;
+        string ISBN;
+
         for(Copy i : CopiesDatabase){
             if(idnum == i.getID()){
+                hasCopy = true;
                 deletedCopy = i;
+                ISBN = deletedCopy.getISBN();
+            }
+            if(hasCopy && i.getISBN() == ISBN){         // Check how many copies of the same book there are
+                numSameCopies++;
+            }
+        }
+        if(!hasCopy){                                   //Invalid ID number, no action is done
+            cout << "No copy exist with this ID number, try again\n";
+            ReaderMenu();
+        }
+        else if(hasCopy && deletedCopy.isLent()){       //Copy is lent out, no action is done
+            cout << "The copy is lent out, so it cannot be deleted\n";
+            ReaderMenu();
+        }
+
+        else if(hasCopy && numSameCopies == 1){         //remove the book if this is the last copy
+            for(Book i : BookDatabase){
+                if(ISBN == i.getISBN()){
+                    deletedBook = i;
+                    break;
+                }
+            }
+            //BookDatabase.erase(remove(BookDatabase.begin(),BookDatabase.end(), deletedBook),BookDatabase.end());
+        }
+        else if(hasCopy){                               //Remove from the reserver's reservation list
+
+        }
+
+    }
+
+
+    else if(i == 4){            //Search user by username
+        cout << "Enter a username";
+        string name;
+        cin >> name;
+        bool found = false;
+        Librarian lib;
+        Student stu;
+        Teacher teach;
+        for(Librarian i : LibrarianDatabse){
+            if(i.getUsername() == name){
+                found = true;
+                lib = i;
+                cout << "\nAccount found\nUsername: " << name << "\nPassword: " << i.getPassword() << "\n";
                 break;
             }
         }
+
+        if(!found){
+            for(Student i : StudentDatabase){
+                if(i.getUsername() == name){
+                    found = true;
+                    stu = i;
+                    cout << stu << "\n";
+                    break;
+                }
+            }
+        }
+
+        if(!found){
+            for(Teacher i : TeacherDatabase){
+                if(i.getUsername() == name){
+                    found = true;
+                    teach = i;
+                    cout << i << "\n";
+                    break;
+                }
+            }
+        }
+
+        if(!found){
+            cout << "No user with this user name exist.\n";
+        }
+        LibrarianMenu();
     }
 
-    LibrarianMenu();
+    else if(i == 5){                        //Use create() method to add new user
+        create();
+        ReaderMenu();
+    }
+
+    else if( i == 6){
+        int iterator = 0;
+        cout << "Enter a username";
+        string name;
+        cin >> name;
+        bool found = false;
+
+        for(Librarian i : LibrarianDatabse){
+            if(i.getUsername() == name){
+                found = true;
+                LibrarianDatabse.erase(LibrarianDatabse.begin() + iterator);
+                cout << "Librarian account " << i.getUsername() << " has been deleted\n";
+                break;
+            }
+            iterator++;
+        }
+
+        if(!found){
+            iterator = 0;
+            for(Student i : StudentDatabase){
+                if(i.getUsername() == name){
+                    found = true;
+                    StudentDatabase.erase(StudentDatabase.begin() + iterator);
+                    cout << "Student account " << i.getUsername() << " has been deleted\n";
+                    break;
+                }
+            iterator ++;
+
+            }
+        }
+        if(!found){
+            iterator = 0;
+            for(Teacher i : TeacherDatabase){
+                if(i.getUsername() == name){
+                    found = true;
+                    TeacherDatabase.erase(TeacherDatabase.begin() + iterator);
+                    cout << "Teacher account " << i.getUsername() << " has been deleted\n";
+                    break;
+                }
+            iterator++;
+            }
+        }
+        if(!found){
+            cout << "No user with this user name exist.\n";
+        }
+        ReaderMenu();
+    }
+
+    else if(i == 0){
+        LibrarianLoggedin = false;
+        cout << "\nYou're logged out now, see you!";
+        mainmenu();
+    }
+
+
 }
 
 
@@ -329,7 +468,7 @@ void LibrarianMenu(){
                 }
             }
         } else if (i == 2) {
-            cout << "Enter the Title";
+            cout << "Enter the Title (CASE SENSITIVE): ";
             string title;
             cin >> title;
             for (Book i : BookDatabase) {
@@ -338,7 +477,7 @@ void LibrarianMenu(){
                 }
             }
         } else if (i == 3) {
-            cout << "Enter the author";
+            cout << "Enter the author (CASE SENSITIVE): ";
             string author;
             cin >> author;
             for (Book i : BookDatabase) {
@@ -348,7 +487,7 @@ void LibrarianMenu(){
             }
 
         } else if (i == 4) {
-            cout << "Enter the Categogry";
+            cout << "Enter the Category (CASE SENSITIVE): ";
             string category;
             cin >> category;
             for (Book i : BookDatabase) {

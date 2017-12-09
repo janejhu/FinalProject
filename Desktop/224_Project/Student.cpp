@@ -30,11 +30,11 @@ ostream &operator<<(ostream &os, const Student &student) {
     for(Book i : student.getReserved()){
         os << i << endl;
     }
-    os << "List of borrowed books: ";
+    os << "\nList of borrowed books: ";
     for(Book i : student.getBorrowed()){
         os << i << endl;
     }
-    os << "Maximum Number of Books: " << 5 << endl;
+    os << "\nMaximum Number of Books: " << 5 << endl;
     return os;
 }
 

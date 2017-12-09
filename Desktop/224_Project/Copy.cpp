@@ -14,6 +14,7 @@ Copy::Copy(string Title, string Author, string Category, string ISBN){
     this -> author = Author;
     this -> category = Category;
     this -> ISBN = ISBN;
+    this -> Lent = false;
 }
 const int &Copy::getID() const {
     return ID;
@@ -58,4 +59,23 @@ void Copy::setExpirationDate(const string &expirationDate) {
 istream &operator >>(istream &in, Copy &copy){
 
 }
+
+ostream &operator<<(ostream &os, const Copy &copy1) {
+    os << static_cast<const Book &>(copy1) << "\nID: " << copy1.ID << "\nisLent: " << copy1.Lent << "\nreaderName: "
+       << copy1.readerName << "\nborrowDate: " << copy1.borrowDate << "\nborrowedTime: " << copy1.borrowedTime
+       << "\nexpirationDate: " << copy1.expirationDate;
+    return os;
+}
+
+bool Copy::isLent() const {
+    return Lent;
+}
+
+void Copy::setLent(bool Lent) {
+    Copy::Lent = Lent;
+}
+
+
+
+
 

@@ -14,6 +14,7 @@ using namespace std;
 class Copy : public Book{
 private:
     int ID;
+    bool Lent;
     string readerName;
     string borrowDate;
     string borrowedTime;
@@ -35,8 +36,13 @@ public:
     void setBorrowedTime(const string &borrowedTime);
     const string &getExpirationDate() const;
     void setExpirationDate(const string &expirationDate);
+        friend istream &operator >>(istream &in, Book &book);
+
     friend ostream &operator<<(ostream &os, const Copy &copy1);
-    friend istream &operator >>(istream &in, Book &book);
+
+    bool isLent() const;
+
+    void setLent(bool Lent);
 };
 
 
